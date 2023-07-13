@@ -896,9 +896,9 @@ class FPU(cfg: FPUParams)(implicit p: Parameters) extends FPUModule()(p) {
   val divSqrt_wen = WireDefault(false.B)
   val divSqrt_inFlight = WireDefault(false.B)
   val divSqrt_waddr = Reg(UInt(5.W))
-  val divSqrt_typeTag = Wire(UInt(log2Up(floatTypes.size).W))
-  val divSqrt_wdata = Wire(UInt((fLen+1).W))
-  val divSqrt_flags = Wire(UInt(FPConstants.FLAGS_SZ.W))
+  val divSqrt_typeTag = WireDefault(0.U(log2Up(floatTypes.size).W))
+  val divSqrt_wdata = WireDefault(0.U((fLen + 1).W))
+  val divSqrt_flags = WireDefault(0.U(FPConstants.FLAGS_SZ.W))
 
   // writeback arbitration
   case class Pipe(p: Module, lat: Int, cond: (FPUCtrlSigs) => Bool, res: FPResult)

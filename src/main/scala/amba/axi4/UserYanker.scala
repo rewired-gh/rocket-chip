@@ -52,6 +52,8 @@ class AXI4UserYanker(capMaxFlight: Option[Int] = None)(implicit p: Parameters) e
 
       val rqueues = Seq.tabulate(edgeIn.master.endId) { i => queue(i) }
       val wqueues = Seq.tabulate(edgeIn.master.endId) { i => queue(i) }
+      rqueues.foreach(_ := DontCare)
+      wqueues.foreach(_ := DontCare)
 
       val arid = in.ar.bits.id
       val ar_ready = VecInit(rqueues.map(_.enq.ready))(arid)
