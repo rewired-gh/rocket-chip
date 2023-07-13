@@ -3,6 +3,7 @@
 
 package freechips.rocketchip.subsystem
 
+import chisel3.DontCare
 import chisel3.util._
 import org.chipsalliance.cde.config._
 import freechips.rocketchip.devices.debug._
@@ -341,18 +342,22 @@ class WithRoccExample extends Config((site, here, up) => {
   case BuildRoCC => List(
     (p: Parameters) => {
         val accumulator = LazyModule(new AccumulatorExample(OpcodeSet.custom0, n = 4)(p))
+        accumulator.module.io <> DontCare
         accumulator
     },
     (p: Parameters) => {
         val translator = LazyModule(new TranslatorExample(OpcodeSet.custom1)(p))
+        translator.module.io <> DontCare
         translator
     },
     (p: Parameters) => {
         val counter = LazyModule(new CharacterCountExample(OpcodeSet.custom2)(p))
+        counter.module.io <> DontCare
         counter
     },
     (p: Parameters) => {
       val blackbox = LazyModule(new BlackBoxExample(OpcodeSet.custom3, "RoccBlackBox")(p))
+      blackbox.module.io <> DontCare
       blackbox
     })
 })

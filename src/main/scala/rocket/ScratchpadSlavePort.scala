@@ -40,6 +40,8 @@ class ScratchpadSlavePort(address: Seq[AddressSet], coreDataBytes: Int, usingAto
 
     require(coreDataBytes * 8 == io.dmem.resp.bits.data.getWidth, "ScratchpadSlavePort is misconfigured: coreDataBytes must match D$ data width")
 
+    io.dmem.keep_clock_enabled := DontCare
+
     val (tl_in, edge) = node.in(0)
 
     val s_ready :: s_wait1 :: s_wait2 :: s_replay :: s_init :: s_grant :: Nil = Enum(6)
