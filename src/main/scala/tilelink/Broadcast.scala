@@ -118,7 +118,7 @@ class TLBroadcast(params: TLBroadcastParams)(implicit p: Parameters) extends Laz
       val d_what = out.d.bits.source(d_high+1, d_high)
       val d_drop = d_what === DROP
       val d_hasData = edgeOut.hasData(out.d.bits)
-      val d_normal = Wire(in.d)
+      val d_normal = Wire(in.d.cloneType)
       val (d_first, d_last, _) = edgeIn.firstlast(d_normal)
       val d_trackerOH = VecInit(trackers.map { t => t.need_d && t.source === d_normal.bits.source }).asUInt holdUnless d_first
 
@@ -178,8 +178,8 @@ class TLBroadcast(params: TLBroadcastParams)(implicit p: Parameters) extends Laz
           in.c.bits.param === TLPermissions.BtoB)
       }
 
-      val releaseack = Wire(in.d)
-      val putfull = Wire(out.a)
+      val releaseack = Wire(in.d.cloneType)
+      val putfull = Wire(out.a.cloneType)
 
       in.c.ready := c_probeack || Mux(c_release, releaseack.ready, putfull.ready)
 
@@ -423,12 +423,12 @@ class TLBroadcastTracker(id: Int, lineBytes: Int, caches: Int, bufferless: Boole
   val got_e   = RegInit(true.B)
   val sent_d  = RegInit(true.B)
   val shared  = Reg(Bool())
-  val opcode  = Reg(io.in_a.bits.opcode)
-  val param   = Reg(io.in_a.bits.param)
-  val size    = Reg(io.in_a.bits.size)
-  val source  = Reg(io.in_a.bits.source)
-  val user    = Reg(io.in_a.bits.user)
-  val echo    = Reg(io.in_a.bits.echo)
+  val opcode  = Reg(io.in_a.bits.opcode.cloneType)
+  val param   = Reg(io.in_a.bits.param.cloneType)
+  val size    = Reg(io.in_a.bits.size.cloneType)
+  val source  = Reg(io.in_a.bits.source.cloneType)
+  val user    = Reg(io.in_a.bits.user.cloneType)
+  val echo    = Reg(io.in_a.bits.echo.cloneType)
   val address = RegInit((id << lineShift).U(io.in_a.bits.address.getWidth.W))
   val count   = Reg(UInt(log2Ceil(caches+1).W))
   val cacheOH = Reg(UInt(caches.W))
