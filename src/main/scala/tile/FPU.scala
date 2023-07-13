@@ -785,6 +785,7 @@ class FPU(cfg: FPUParams)(implicit p: Parameters) extends FPUModule()(p) {
   cp_ctrl.wflags := io.cp_req.bits.wflags
   io.cp_resp.valid := false.B
   io.cp_resp.bits.data := 0.U
+  io.cp_resp.bits.exc := 0.U
 
   val ex_ctrl = Mux(ex_cp_valid, cp_ctrl, ex_reg_ctrl)
   val mem_ctrl = RegEnable(ex_ctrl, req_valid)
