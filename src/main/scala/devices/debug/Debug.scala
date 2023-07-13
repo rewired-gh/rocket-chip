@@ -358,6 +358,9 @@ class TLDebugModuleOuter(device: Device)(implicit p: Parameters) extends LazyMod
       val dmAuthenticated = cfg.hasAuthentication.option(Input(Bool()))
     })
 
+    io.innerCtrl.bits.hasel := DontCare
+    io.innerCtrl.bits.hamask.foreach(_ := DontCare)
+
     val omRegMap = withReset(reset.asAsyncReset) {
     // FIXME: Instead of casting reset to ensure it is Async, assert/require reset.Type == AsyncReset (when this feature is available)
 
