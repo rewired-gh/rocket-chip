@@ -124,7 +124,7 @@ trait HasLazyRoCCModule extends CanHavePTWModule
 }
 
 class AccumulatorExample(opcodes: OpcodeSet, val n: Int = 4)(implicit p: Parameters) extends LazyRoCC(opcodes) {
-  override lazy val module = new AccumulatorExampleModuleImp(this)
+  override lazy val module = Module(new AccumulatorExampleModuleImp(this))
 }
 
 class AccumulatorExampleModuleImp(outer: AccumulatorExample)(implicit p: Parameters) extends LazyRoCCModuleImp(outer)
@@ -195,7 +195,7 @@ class AccumulatorExampleModuleImp(outer: AccumulatorExample)(implicit p: Paramet
 }
 
 class  TranslatorExample(opcodes: OpcodeSet)(implicit p: Parameters) extends LazyRoCC(opcodes, nPTWPorts = 1) {
-  override lazy val module = new TranslatorExampleModuleImp(this)
+  override lazy val module = Module(new TranslatorExampleModuleImp(this))
 }
 
 class TranslatorExampleModuleImp(outer: TranslatorExample)(implicit p: Parameters) extends LazyRoCCModuleImp(outer)
@@ -242,7 +242,7 @@ class TranslatorExampleModuleImp(outer: TranslatorExample)(implicit p: Parameter
 }
 
 class  CharacterCountExample(opcodes: OpcodeSet)(implicit p: Parameters) extends LazyRoCC(opcodes) {
-  override lazy val module = new CharacterCountExampleModuleImp(this)
+  override lazy val module = Module(new CharacterCountExampleModuleImp(this))
   override val atlNode = TLClientNode(Seq(TLMasterPortParameters.v1(Seq(TLMasterParameters.v1("CharacterCountRoCC")))))
 }
 
@@ -339,7 +339,7 @@ class CharacterCountExampleModuleImp(outer: CharacterCountExample)(implicit p: P
 
 class BlackBoxExample(opcodes: OpcodeSet, blackBoxFile: String)(implicit p: Parameters)
     extends LazyRoCC(opcodes) {
-  override lazy val module = new BlackBoxExampleModuleImp(this, blackBoxFile)
+  override lazy val module = Module(new BlackBoxExampleModuleImp(this, blackBoxFile))
 }
 
 class BlackBoxExampleModuleImp(outer: BlackBoxExample, blackBoxFile: String)(implicit p: Parameters)
