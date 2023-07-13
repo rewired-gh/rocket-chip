@@ -767,7 +767,22 @@ class FPU(cfg: FPUParams)(implicit p: Parameters) extends FPUModule()(p) {
   val wb_reg_valid = RegNext(mem_reg_valid && (!killm || mem_cp_valid), false.B)
 
   val cp_ctrl = Wire(new FPUCtrlSigs)
-  cp_ctrl <> io.cp_req.bits
+  cp_ctrl.ldst := io.cp_req.bits.ldst
+  cp_ctrl.wen := io.cp_req.bits.wen
+  cp_ctrl.ren1 := io.cp_req.bits.ren1
+  cp_ctrl.ren2 := io.cp_req.bits.ren2
+  cp_ctrl.ren3 := io.cp_req.bits.ren3
+  cp_ctrl.swap12 := io.cp_req.bits.swap12
+  cp_ctrl.swap23 := io.cp_req.bits.swap23
+  cp_ctrl.typeTagIn := io.cp_req.bits.typeTagIn
+  cp_ctrl.typeTagOut := io.cp_req.bits.typeTagOut
+  cp_ctrl.fromint := io.cp_req.bits.fromint
+  cp_ctrl.toint := io.cp_req.bits.toint
+  cp_ctrl.fastpipe := io.cp_req.bits.fastpipe
+  cp_ctrl.fma := io.cp_req.bits.fma
+  cp_ctrl.div := io.cp_req.bits.div
+  cp_ctrl.sqrt := io.cp_req.bits.sqrt
+  cp_ctrl.wflags := io.cp_req.bits.wflags
   io.cp_resp.valid := false.B
   io.cp_resp.bits.data := 0.U
 
@@ -821,7 +836,22 @@ class FPU(cfg: FPUParams)(implicit p: Parameters) extends FPUModule()(p) {
   def fuInput(minT: Option[FType]): FPInput = {
     val req = Wire(new FPInput)
     val tag = ex_ctrl.typeTagIn
-    req := ex_ctrl
+    req.ldst := ex_ctrl.ldst
+    req.wen := ex_ctrl.wen
+    req.ren1 := ex_ctrl.ren1
+    req.ren2 := ex_ctrl.ren2
+    req.ren3 := ex_ctrl.ren3
+    req.swap12 := ex_ctrl.swap12
+    req.swap23 := ex_ctrl.swap23
+    req.typeTagIn := ex_ctrl.typeTagIn
+    req.typeTagOut := ex_ctrl.typeTagOut
+    req.fromint := ex_ctrl.fromint
+    req.toint := ex_ctrl.toint
+    req.fastpipe := ex_ctrl.fastpipe
+    req.fma := ex_ctrl.fma
+    req.div := ex_ctrl.div
+    req.sqrt := ex_ctrl.sqrt
+    req.wflags := ex_ctrl.wflags
     req.rm := ex_rm
     req.in1 := unbox(ex_rs(0), tag, minT)
     req.in2 := unbox(ex_rs(1), tag, minT)
